@@ -73,6 +73,24 @@ module.exports = function(grunt) {
           'demo/css/main.min.css': ['demo/css/main.css', 'demo/vendor/css/default.css', 'demo/vendor/css/github.css']
         }
       }
+    },
+    markdox: {
+      target: {
+        files: [
+          {src: 'annyang.js', dest: 'docs/README.md'}
+        ]
+      }
+    },
+    connect: {
+      server: {
+        options: {
+          protocol: 'https',
+          port: 8443,
+          hostname: '*',
+          base: '.',
+          open: 'https://localhost:8443/demo'
+        }
+      }
     }
   });
 
@@ -91,7 +109,15 @@ module.exports = function(grunt) {
   // Load the plugin that provides the "imagemin" task.
   grunt.loadNpmTasks('grunt-contrib-imagemin');
 
+  // Load the plugin that provides the "connect" task.
+  grunt.loadNpmTasks('grunt-contrib-connect');
+
+  // Load the plugin that provides the "markdox" task.
+  grunt.loadNpmTasks('grunt-markdox');
+
   // Default task(s).
-  grunt.registerTask('default', ['jshint', 'uglify', 'cssmin']);
+  grunt.registerTask('default', ['jshint', 'uglify', 'cssmin', 'markdox']);
+
+  grunt.registerTask('dev', ['default', 'connect', 'watch']);
 
 };
